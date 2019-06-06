@@ -1,0 +1,164 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.security.hotel4.mapper.PreOrderMapper" >
+  <resultMap id="BaseResultMap" type="com.security.hotel4.model.PreOrder" >
+    <id column="preId" property="preId" jdbcType="VARCHAR" />
+    <result column="orderType" property="orderType" jdbcType="VARCHAR" />
+    <result column="userId" property="userId" jdbcType="VARCHAR" />
+    <result column="userName" property="userName" jdbcType="VARCHAR" />
+    <result column="gender" property="gender" jdbcType="VARCHAR" />
+    <result column="cellPhone" property="cellPhone" jdbcType="VARCHAR" />
+    <result column="roomType" property="roomType" jdbcType="VARCHAR" />
+    <result column="preInTime" property="preInTime" jdbcType="VARCHAR" />
+    <result column="preOutTime" property="preOutTime" jdbcType="VARCHAR" />
+    <result column="status" property="status" jdbcType="VARCHAR" />
+    <result column="Remarks" property="remarks" jdbcType="VARCHAR" />
+    <result column="createrBy" property="createrBy" jdbcType="VARCHAR" />
+    <result column="createrDate" property="createrDate" jdbcType="VARCHAR" />
+    <result column="ArrivalTime" property="arrivalTime" jdbcType="VARCHAR" />
+  </resultMap>
+
+  <select id="getPerOrderAll" resultType="com.security.hotel4.model.PreOrder">
+        select * from preorder ;
+  </select>
+  <insert id="addPerOrder" parameterType="com.security.hotel4.model.PreOrder">
+        INSERT INTO preorder
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="preId != null and preId !=''" >
+        preId,
+      </if>
+      <if test="orderType != null and orderType !=''" >
+        orderType,
+      </if>
+      <if test="userId != null and userId !=''" >
+        userId,
+      </if>
+      <if test="userName != null and userName !=''" >
+        userName,
+      </if>
+      <if test="gender != null and gender !=''" >
+        gender,
+      </if>
+      <if test="cellPhone != null and cellPhone !=''" >
+        cellPhone,
+      </if>
+      <if test="roomType != null and roomType !=''" >
+        roomType,
+      </if>
+      <if test="preInTime != null and preInTime !=''" >
+        preInTime,
+      </if>
+      <if test="preOutTime != null and preOutTime !=''" >
+        preOutTime,
+      </if>
+      <if test="status != null and status !=''" >
+        status,
+      </if>
+      <if test="remarks != null and remarks !=''" >
+        remarks,
+      </if>
+      <if test="createrBy != null and createrBy !=''" >
+        createrBy,
+      </if>
+      <if test="createrDate != null and createrDate !=''" >
+        createrDate,
+      </if>
+      <if test="arrivalTime != null and arrivalTime !=''" >
+        arrivalTime,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="preId != null and preId !=''" >
+        #{preId,jdbcType=VARCHAR},
+      </if>
+      <if test="orderType != null and orderType !=''" >
+        #{orderType,jdbcType=VARCHAR},
+      </if>
+      <if test="userId != null and userId !=''" >
+        #{userId,jdbcType=VARCHAR},
+      </if>
+      <if test="userName != null and userName !=''" >
+        #{userName,jdbcType=VARCHAR},
+      </if>
+      <if test="gender != null and gender !=''" >
+        #{gender,jdbcType=INTEGER},
+      </if>
+      <if test="cellPhone != null and cellPhone !=''" >
+        #{cellPhone,jdbcType=VARCHAR},
+      </if>
+      <if test="roomType != null and roomType !=''" >
+        #{roomType,jdbcType=VARCHAR},
+      </if>
+      <if test="preInTime != null and preInTime !=''" >
+        #{preInTime},
+      </if>
+      <if test="preOutTime != null and preOutTime !=''" >
+        #{preOutTime},
+      </if>
+      <if test="status != null and status !=''" >
+        #{status,jdbcType=VARCHAR},
+      </if>
+      <if test="remarks != null and remarks !=''" >
+        #{remarks},
+      </if>
+      <if test="createrBy != null and createrBy !=''" >
+        #{createrBy},
+      </if>
+      <if test="createrDate != null and createrDate !=''" >
+        #{createrDate},
+      </if>
+      <if test="arrivalTime != null and arrivalTime !=''" >
+        #{arrivalTime},
+      </if>
+    </trim>
+  </insert>
+  <select id="getOnePreOrder" resultType="com.security.hotel4.model.PreOrder">
+        select * from preorder where preId =#{preId};
+  </select>
+
+  <update id="updatePreOrderById" parameterType="com.security.hotel4.model.PreOrder" >
+    update preorder
+    <set >
+      <if test="userName != null and userName !=''" >
+        userName = #{userName,jdbcType=VARCHAR},
+      </if>
+      <if test="gender != null and gender !=''" >
+        gender = #{gender,jdbcType=INTEGER},
+      </if>
+      <if test="cellPhone != null and cellPhone !=''" >
+        cellPhone=#{cellPhone,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null and status !=''" >
+        status=#{status,jdbcType=VARCHAR},
+      </if>
+      <if test="roomType != null and roomType !=''" >
+        roomType=#{roomType,jdbcType=VARCHAR},
+      </if>
+      <if test="preInTime != null and preInTime !=''" >
+        preInTime=#{preInTime},
+      </if>
+      <if test="preOutTime != null and preOutTime !=''" >
+        preOutTime=#{preOutTime},
+      </if>
+    </set>
+    where preId = #{preId,jdbcType=VARCHAR}
+  </update>
+
+  <delete id="deletePreOrderById" parameterType="java.lang.String" >
+    delete from preorder
+    where preId = #{preId}
+  </delete>
+
+  <update id="OverPreOrder" parameterType="java.lang.String">
+  update preorder
+  <set >
+    <if test="status != null and status !=''" >
+      status=#{status,jdbcType=VARCHAR},
+    </if>
+  </set>
+  WHERE preId IN
+  <foreach collection="PreIds" item="preId" index="index" open="(" close=")" separator=",">
+    #{preId}
+  </foreach>
+  </update>
+</mapper>
